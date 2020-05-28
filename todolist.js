@@ -1,29 +1,39 @@
 const $input_text = document.getElementById('input_text');
 const $input_btn = document.getElementById('input_btn');
 const $li_listUl = document.getElementById('save_text');
-const $li_list = document.getElementById('save_text').getElementsByTagName('Li');
+const $li_listLi = document.getElementById('save_text').getElementsByTagName('Li');
 
 
-// 기존 li태그에 close button 추가
-for(let i=0; i<$li_list.length; i++) {
-    const $closeBtn = document.createElement('button');
-    const $closeText = document.createTextNode('x');
-    $closeBtn.className = "close";
-    $closeBtn.appendChild($closeText);
-    $li_list[i].appendChild($closeBtn);
+//================실행================//
+
+
+// 기존에 있던 li태그에 close버튼 추가
+for(let i=0; i<$li_listLi.length; i++) {
+    arr_removeBtn($li_listLi[i]);
 }
 
+// 기존에 li 태그가 있다면 x 버튼 활성화
+remove();
 
+
+// 새로 추가 되는 li태그
 $input_btn.addEventListener('click', addClick);
+eventClick();
 
+
+
+// ===============이벤트==============//
 
 // Add 클릭 이벤트
 function addClick() {
     if($input_text.value != "") {
         // 내용이 있다면
         arr_add();
-        $input_text.value = "";
+        remove();
+        eventClick()
         $input_text.focus();
+        console.log($li_listLi);
+        
     }
     else {
         // 내용이 없다면
@@ -32,19 +42,38 @@ function addClick() {
     }
 }
 
+// li click시에 이벤트
+function eventClick() {
 
+    const $check = false;
+
+    for(let i=0; i<$li_listLi.length; i++){
+        $li_listLi[i].onclick = function () {
+            const $check_i = document.createElement('i');
+            $check_i.className = 'checked';
+            this.appendChild($check_i);
+        }
+    }
+    
+}
+
+function toggleElements() {
+
+}
+
+
+
+// ============함수============ //
 
 // text 내용 추가
 function arr_add() {
-    const $li_listadd = document.createElement('li');
-    const $li_listtext = document.createTextNode($input_text.value);
-    $li_listadd.appendChild($li_listtext);
-    arr_removeBtn($li_listadd);
+    const $li_listLiadd = document.createElement('li');
+    const $li_listLitext = document.createTextNode($input_text.value);
+    $li_listLiadd.appendChild($li_listLitext);
+    arr_removeBtn($li_listLiadd);
     
-
-
-    const $li_listul = document.getElementById('save_text');
-    $li_listul.appendChild($li_listadd);
+    const $li_listLiul = document.getElementById('save_text');
+    $li_listLiul.appendChild($li_listLiadd);
     $input_text.value = "";
 }
 
@@ -52,39 +81,25 @@ function arr_add() {
 
 // li태그에 button 추가 함수
 function arr_removeBtn(obj) {
-    const $closeBtn = document.createElement('button');
-    const $closeText = document.createTextNode('x');
-    $closeBtn.className = 'close';
-    $closeBtn.appendChild($closeText);
-    obj.appendChild($closeBtn);
+        const $closeBtn = document.createElement('button');
+        const $closeText = document.createTextNode('x');
+        $closeBtn.className = 'close';
+        $closeBtn.appendChild($closeText);
+        obj.appendChild($closeBtn);
 }
 
 
-
-
-
-// 배열 내용 확인 log
-function arrlist() {
-    // 배열 내용
-    for(let i=0; i<$li_list.length; i++){
-        console.log($li_list[i]);
+// close 버튼 클릭시 li 삭제 기능
+function remove() {
+    let $close = document.querySelectorAll(".close");
+    
+    let i;
+    for (i = 0; i < $close.length; i++) {
+        $close[i].onclick = function () {
+            let $closeLi = this.parentElement;
+            $closeLi.style.display = "none";
+        }
     }
 }
-
-
-const $close_btn = document.querySelectorAll('.close');
-for(let i=0; i<$close_btn.length; i++) {
-    $close_btn[i].addEventListener('click', removeClick);
-}
-
-
-// 내용 삭제 기능
-function removeClick() {
-    const a = document.getElementById('save_text');
-const b = document.getElementById('save_text').getElementsByTagName('Li');
-a.remove(b);
-}
-
-
 
 
