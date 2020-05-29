@@ -1,7 +1,9 @@
 const $input_text = document.getElementById('input_text');
 const $input_btn = document.getElementById('input_btn');
+const $remove_btn = document.getElementById('remove_btn');
 const $li_listUl = document.getElementById('save_text');
 const $li_listLi = document.getElementById('save_text').getElementsByTagName('Li');
+
 
 
 //================실행================//
@@ -18,7 +20,9 @@ remove();
 
 // 새로 추가 되는 li태그
 $input_btn.addEventListener('click', addClick);
+$remove_btn.addEventListener('click', removeClick);
 eventClick();
+
 
 
 
@@ -42,24 +46,43 @@ function addClick() {
     }
 }
 
+
 // li click시에 이벤트
 function eventClick() {
-
-    const $check = false;
-
-    for(let i=0; i<$li_listLi.length; i++){
-        $li_listLi[i].onclick = function () {
-            const $check_i = document.createElement('i');
-            $check_i.className = 'checked';
-            this.appendChild($check_i);
+    for (let i = 0; i < $li_listLi.length; i++) {
+        let ox = true;
+        const $check_i = document.createElement('i');
+        // li list 클릭시에 toggle 이벤트
+        $li_listLi[i].onclick = function () {        
+            if (ox == true){
+                $check_i.className = 'checked';
+                this.appendChild($check_i);
+                this.style.textDecoration = "line-through";
+                this.style.background = "#a3a3a3";
+                ox = false;
+            }else {
+                $check_i.className = '';
+                this.appendChild($check_i);
+                this.style.textDecoration = "none";
+                if($li_listLi[i%2] == $li_listLi[0]) {
+                    this.style.background = "#d3d3d3";
+                }else {
+                    this.style.background = "#fff";
+                }
+                ox = true;
+            }
         }
     }
-    
 }
 
-function toggleElements() {
 
+function removeClick() {
+    for(let i=0; i<$li_listLi.length; i++) {
+        const a = document.querySelectorAll('.checked');
+        console.log(b);
+    }
 }
+
 
 
 
@@ -92,9 +115,7 @@ function arr_removeBtn(obj) {
 // close 버튼 클릭시 li 삭제 기능
 function remove() {
     let $close = document.querySelectorAll(".close");
-    
-    let i;
-    for (i = 0; i < $close.length; i++) {
+    for (let i = 0; i < $close.length; i++) {
         $close[i].onclick = function () {
             let $closeLi = this.parentElement;
             $closeLi.style.display = "none";
