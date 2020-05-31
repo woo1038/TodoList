@@ -1,126 +1,93 @@
+/* x 버튼 생성 */
+const $close_li = document.getElementById('save_text').getElementsByTagName('li');
+for(let i=0; i<$close_li.length; i++){
+    close_btn($close_li[i]);
+}
+
+
+/* x 버튼 이벤트 */
+const $close = document.querySelectorAll('.close');
+close_event($close);
+
+
+/* li click 이벤트 */
+const $list = document.getElementById('save_text');
+$list.addEventListener('click', function(li) {
+        if(li.target.tagName === 'LI') {
+            li.target.classList.toggle('checked');
+        }
+});
+
+
+/* Add click 이벤트 */
 const $input_text = document.getElementById('input_text');
 const $input_btn = document.getElementById('input_btn');
+$input_btn.addEventListener('click', function() {
+    text_plus();
+});
+
+
+/* enter 이벤트 */
+function pressEnter() {
+    if (event.keyCode == 13) {
+        text_plus();
+    }
+}
+
+
+// check remove 이벤트
 const $remove_btn = document.getElementById('remove_btn');
-const $li_listUl = document.getElementById('save_text');
-const $li_listLi = document.getElementById('save_text').getElementsByTagName('Li');
+const $remove_li = document.getElementById('save_text').getElementsByTagName('li');
+$remove_btn.addEventListener('click', function() {
+    for(let i=0; i<$remove_li.length; i++) {
+        if($remove_li[i].classList == 'checked') {
+            $remove_li[i].style.display = 'none';
+        }
+    }
+});
 
 
 
-//================실행================//
 
 
-// 기존에 있던 li태그에 close버튼 추가
-for(let i=0; i<$li_listLi.length; i++) {
-    arr_removeBtn($li_listLi[i]);
+/* ========= 함수 ========= */
+
+// x버튼 함수
+function close_btn(btn) {
+    const $close_btn = document.createElement("button");
+    const $close_text = document.createTextNode("x");
+    $close_btn.className = "close";
+    $close_btn.appendChild($close_text);
+    btn.appendChild($close_btn);
 }
 
-// 기존에 li 태그가 있다면 x 버튼 활성화
-remove();
+
+// x버튼 이벤트 함수
+function close_event(event) {
+    for(let i=0; i<event.length; i++){
+        event[i].onclick = function() {
+            const $this_li = this.parentElement;
+            $this_li.style.display = 'none';
+        }
+    }
+}
 
 
-// 새로 추가 되는 li태그
-$input_btn.addEventListener('click', addClick);
-$remove_btn.addEventListener('click', removeClick);
-eventClick();
-
-
-
-
-// ===============이벤트==============//
-
-// Add 클릭 이벤트
-function addClick() {
-    if($input_text.value != "") {
-        // 내용이 있다면
-        arr_add();
-        remove();
-        eventClick()
-        $input_text.focus();
-        console.log($li_listLi);
+// li 추가 이벤트 함수
+function text_plus() {
+    if($input_text.value == '') {
+        alert('입력하시오');
+    }else {
+        const $create_li = document.createElement('li');
+        const $create_text = document.createTextNode($input_text.value);
+        $create_li.appendChild($create_text);
+        $list.appendChild($create_li);
         
-    }
-    else {
-        // 내용이 없다면
-        alert('내용을 입력해주시길 바랍니다.');
+        $input_text.value = '';
         $input_text.focus();
+        close_btn($create_li);
+        
+        const $close_Btnall = document.querySelectorAll('.close');
+        close_event($close_Btnall);
     }
 }
-
-
-// li click시에 이벤트
-function eventClick() {
-    for (let i = 0; i < $li_listLi.length; i++) {
-        let ox = true;
-        const $check_i = document.createElement('i');
-        // li list 클릭시에 toggle 이벤트
-        $li_listLi[i].onclick = function () {        
-            if (ox == true){
-                $check_i.className = 'checked';
-                this.appendChild($check_i);
-                this.style.textDecoration = "line-through";
-                this.style.background = "#a3a3a3";
-                ox = false;
-            }else {
-                $check_i.className = '';
-                this.appendChild($check_i);
-                this.style.textDecoration = "none";
-                if($li_listLi[i%2] == $li_listLi[0]) {
-                    this.style.background = "#d3d3d3";
-                }else {
-                    this.style.background = "#fff";
-                }
-                ox = true;
-            }
-        }
-    }
-}
-
-
-function removeClick() {
-    for(let i=0; i<$li_listLi.length; i++) {
-        const a = document.querySelectorAll('.checked');
-        console.log(b);
-    }
-}
-
-
-
-
-// ============함수============ //
-
-// text 내용 추가
-function arr_add() {
-    const $li_listLiadd = document.createElement('li');
-    const $li_listLitext = document.createTextNode($input_text.value);
-    $li_listLiadd.appendChild($li_listLitext);
-    arr_removeBtn($li_listLiadd);
-    
-    const $li_listLiul = document.getElementById('save_text');
-    $li_listLiul.appendChild($li_listLiadd);
-    $input_text.value = "";
-}
-
-
-
-// li태그에 button 추가 함수
-function arr_removeBtn(obj) {
-        const $closeBtn = document.createElement('button');
-        const $closeText = document.createTextNode('x');
-        $closeBtn.className = 'close';
-        $closeBtn.appendChild($closeText);
-        obj.appendChild($closeBtn);
-}
-
-
-// close 버튼 클릭시 li 삭제 기능
-function remove() {
-    let $close = document.querySelectorAll(".close");
-    for (let i = 0; i < $close.length; i++) {
-        $close[i].onclick = function () {
-            let $closeLi = this.parentElement;
-            $closeLi.style.display = "none";
-        }
-    }
-}
-
-

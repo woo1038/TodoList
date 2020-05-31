@@ -9,22 +9,24 @@
     <script defer src="./todolist.js"></script>
 </head>
 <body>
+    <!-- 왼쪽 text 및 add 버튼 -->
     <div class="horizon">
         <header class="header">
             <div class="input_inner center">
                 <div class="input_container center">
-                    <div class="input_title">My Yo Do List</div>
-                        <input type="text" id="input_text" placeholder="Text...">
+                    <div class="input_title">My To Do List</div>
+                        <input type="text" id="input_text" placeholder="Text..." onKeyDown="pressEnter()">
                         <button type="submit" id="input_btn">Add</button>
                         <button type="submit" id="remove_btn">Remove</button>
                 </div>
             </div>
         </header>
     
+        <!-- 오른쪽 li text -->
         <section class="section">
             <div class="save_inner">
                 <ul id="save_text">
-                    <li>hello</li>
+                    <li class="checked">hello</li>
                     <li>world</li>
                 </ul>
             </div>
